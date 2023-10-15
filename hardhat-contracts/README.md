@@ -1,13 +1,15 @@
-# Sample Hardhat Project
+## Hardhat contract deployment for ETHOnline-de-report
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+    npx hardhat compile
 
-Try running some of the following tasks:
+    npx hardhat run --network goerli scripts/deploy.ts 
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
+Create `constructor-args.json` file and add:
+
+    ["0xdc3DE060FF06df185A780124E45a0115f739aFb9"]
+
+Verify:
+
+    npx hardhat verify --network goerli --constructor-args constructor-args.json
+    0xf6362b1c0e2f86e10579229841287f7b09739e62
 ```
