@@ -5,7 +5,7 @@ import {
   useContractWrite,
   useWaitForTransaction
 } from "wagmi";
-import useIsMounted from "./useisMounted";
+import useIsMounted from "./useIsMounted";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import contractInterface from '../contract-abi.json'
 
@@ -37,12 +37,13 @@ function Wallet() {
           )
         : null}
         <button
-          onClick={() => write({
+          onClick={() => yea({
             args: ['0xe0ce099DcA25f3a50d1153984aC6BeeC1C4e3f69', '5'],
           })}
         >
           Mint
         </button>
+
         {/* {isSuccess ? <h3>Minted</h3> : ""} */}
     </div>
   );
