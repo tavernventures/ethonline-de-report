@@ -1,4 +1,4 @@
-## Hardhat contract deployment for ETHOnline-de-report
+## Hardhat contract deployment for ETHOnline-de-Report
 
     npx hardhat compile
 
