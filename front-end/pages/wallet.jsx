@@ -21,9 +21,9 @@ function Wallet() {
     functionName: 'safeMint (0xd204c45e)'
   })
 
-  const yea = useContractWrite(config)
+  const write = useContractWrite(config)
 
-  console.log("this is data", yea);
+  console.log("this is data", write);
   
   return (
     <div>
@@ -37,13 +37,12 @@ function Wallet() {
           )
         : null}
         <button
-          onClick={() => yea({
+          onClick={() => write({
             args: ['0xe0ce099DcA25f3a50d1153984aC6BeeC1C4e3f69', '5'],
           })}
         >
           Mint
         </button>
-
         {/* {isSuccess ? <h3>Minted</h3> : ""} */}
     </div>
   );
