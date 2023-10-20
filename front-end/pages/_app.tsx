@@ -12,7 +12,7 @@ import {
   base,
   zora,
   scrollTestnet,
-  scrollSepolia
+  scrollSepolia,
 } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 
@@ -26,6 +26,7 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
     zora,
     scrollTestnet,
     scrollSepolia,
+    goerli,
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli] : []),
   ],
   [publicProvider()]
