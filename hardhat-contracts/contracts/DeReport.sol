@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract DeReport is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
-    constructor() ERC721("DeReport", "DRPRT") {}
+    constructor() ERC721("DeReport", "DPRT") {}
 
     function safeMint(address to, uint256 tokenId, string memory uri)
         public
@@ -49,3 +49,4 @@ contract DeReport is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     }
 }
 
+// Verified 10-20-23: https://sepolia-blockscout.scroll.io/address/0x6F29897aeeB60757deFfDb06A6b357fA324bE46E#code
