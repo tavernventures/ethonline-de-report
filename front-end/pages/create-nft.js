@@ -20,14 +20,14 @@ const client = ipfsHttpClient({
 })
 
 import {
-  marketplaceAddress
+  deReportAddress
 } from '../config'
 
-import NFTMarketplace from '../artifacts/contracts/DeReport.sol/DeReport.json'
+import DeReport from '../artifacts/contracts/DeReport.sol/DeReport.json'
 
 export default function CreateItem() {
   const [fileUrl, setFileUrl] = useState(null)
-  const [formInput, updateFormInput] = useState({ price: '', name: '', description: '' })
+  const [formInput, updateFormInput] = useState({ name: '', description: '' , price: '', quantity:'', date:''})
   const router = useRouter()
   const { web3, account } = useWAGMI()  // Initialize WAGMI
 
@@ -75,7 +75,7 @@ export default function CreateItem() {
 
     /* next, create the item */
     const price = ethers.utils.parseUnits(formInput.price, 'ether')
-    let contract = new ethers.Contract(marketplaceAddress, NFTMarketplace.abi, signer)
+    let contract = new ethers.Contract(deReportAddress, DeReport.abi, signer)
     let listingPrice = await contract.getListingPrice()
     listingPrice = listingPrice.toString()
 
