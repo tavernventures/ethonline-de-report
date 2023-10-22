@@ -1,27 +1,16 @@
 import { ethers } from "hardhat";
-const hre = require("hardhat");
-const fs = require('fs');
 
 async function main() {
-    const DeReport = await hre.ethers.getContractFactory("DeReport");
-    console.log("Deploying DeReport...");
-    const deReport = await DeReport.deploy();
-
-    await deReport.deployed();
-
-    console.log("DeReport contract deployed to:", deReport.address);
-
-    // Add more debugging information
-    console.log("Transaction hash:", deReport.deployTransaction.hash);
-    // console.log("Gas used for deployment:", deReport.deployTransaction.gasUsed.toString());
-
-    fs.writeFileSync('./config.ts', `
-    export const stakingAddress = "${deReport.address}"
-    `);
+  // console.log("TEST");
+  const NFTMarket = await ethers.getContractFactory('NFTMarket');
+  const nftMarket = await NFTMarket.deploy();
+  await nftMarket.deployed();
+  console.log("Deployed to: ", nftMarket.address);
 }
 
+// We recommend this pattern to be able to use async/await everywhere
+// and properly handle errors.
 main().catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
+  console.error(error);
+  process.exitCode = 1;
 });
-

@@ -33,8 +33,8 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
 );
 
 const { connectors } = getDefaultWallets({
-  appName: 'RainbowKit App',
-  projectId: 'YOUR_PROJECT_ID',
+  appName: 'ETHOnline-De-Reports',
+  projectId: '27e35598ffdc36c81a5ae40a2c14a25e',
   chains,
 });
 
