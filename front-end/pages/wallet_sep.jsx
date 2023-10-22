@@ -14,13 +14,13 @@ export default function Wallet() {
  
   return (
     <div>
-      <button onClick={
+      {/* <button onClick={
         () =>  write({
           args: ['0xe0ce099DcA25f3a50d1153984aC6BeeC1C4e3f69', 1, 'www.hello.com'],
           // from: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
           // value: parseEther('0.01'),
         })
-        }>Hello</button>
+        }></button> */}
       {isLoading && <div>Check Wallet</div>}
       {isSuccess && <div>Transaction: {JSON.stringify(data)}</div>}
 

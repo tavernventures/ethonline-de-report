@@ -12,7 +12,7 @@ import {
   } from '@mui/material';
   import {
     deReportAddress
-  } from '../../config'
+  } from '../config'
   //import DeReport from '../../hardhat-contracts/artifacts/contracts/DeReport.sol'
   import * as dotenv from "dotenv";
   dotenv.config();
@@ -192,7 +192,7 @@ export default function Form(){
               variant="contained"
               color="primary"
               onClick={() => write({
-                args: ['0xe0ce099DcA25f3a50d1153984aC6BeeC1C4e3f69', 10, "blah.com"],
+                args: ['0xdc3DE060FF06df185A780124E45a0115f739aFb9', 16, "blah.com"],
                 // from: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
                 // value: parseEther('0.01'),
               })}
