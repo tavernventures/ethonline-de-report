@@ -3,7 +3,7 @@ import type { NextPage } from 'next';
 import Wallet from "./wallet_sep"
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import useIsMounted from "./useisMounted";
+import useIsMounted from "./useIsMounted";
 import {
   useAccount,
 } from 'wagmi';
