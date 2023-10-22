@@ -1,0 +1,18 @@
+{
+    "name": "BTC trades 2023",
+    "description": "BTC trades 2023",
+    "trades": [
+        {
+            "type-asset": "BUY-BTC",
+            "quantity": "0.025",
+            "price": "28750.00",
+            "date": "2023-10-20T12:33:00.000+00:00"
+        },
+        {
+            "type-asset": "SELL-BTC",
+            "quantity": "0.025",
+            "price": "29750.00",
+            "date": "2023-10-21T13:53:00.000+00:00"
+        }
+    ]
+}

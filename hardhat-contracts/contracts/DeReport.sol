@@ -11,7 +11,6 @@ contract DeReport is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 
     function safeMint(address to, uint256 tokenId, string memory uri)
         public
-        onlyOwner
     {
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);

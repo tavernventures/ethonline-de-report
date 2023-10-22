@@ -1,3 +1,3 @@
 
-    export const stakingAddress = "0x6F29897aeeB60757deFfDb06A6b357fA324bE46E"
+    export const stakingAddress = "0x60791CCA42004b6B438eDb1C824dF594d88F4EB0"
     
