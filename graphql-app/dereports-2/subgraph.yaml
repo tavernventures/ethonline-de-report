@@ -1,0 +1,24 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: NFTMarket
+    network: scroll-sepolia
+    source:
+      address: "0xa6f4dc81f3f3C3Ec17682B9C0A0f1e5a36cbE055"
+      abi: NFTMarket
+      startBlock: 1775990
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - NFTTransfer
+      abis:
+        - name: NFTMarket
+          file: ./abis/NFTMarket.json
+      eventHandlers:
+        - event: NFTTransfer(uint256,address,address,string,uint256)
+          handler: handleNFTTransfer
+      file: ./src/nft-market.ts

@@ -22,7 +22,7 @@ contract NFTMarket is ERC721URIStorage, Ownable {
     // if price is 0 && tokenURI is an empty string => NFT was transferred(bought or canceled)
     event NFTTransfer(uint256 tokenID, address from, address to, string tokenURI, uint256 price);
 
-    constructor() ERC721("DeReports", "DRPRT") {
+    constructor() ERC721("DeReports", "DRPTS") {
 
     }
 
@@ -79,3 +79,4 @@ contract NFTMarket is ERC721URIStorage, Ownable {
 }
 
 // Verified: https://goerli.etherscan.io/address/0xCe93f1CE699408B2004072A6C188CeDd66AC9823#code
+// Verified 10-21-23: https://sepolia-blockscout.scroll.io/address/0xa6f4dc81f3f3C3Ec17682B9C0A0f1e5a36cbE055#code
