@@ -23,9 +23,14 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
+        <h2>Welcome to DeReport</h2>
+        <h3>Decentralized Reporting Application</h3>
         <ConnectButton />
-        {isConnected && mounted ? <Wallet/> : null}
-        <Form/>
+        {
+        isConnected && mounted ? 
+        <div><Wallet/><Form/></div> : 
+        null}
+        
       </main>
  
       <footer className={styles.footer}>

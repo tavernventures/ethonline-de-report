@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-
+import React, { useState} from 'react'
+import { useContractWrite } from 'wagmi'
 import {
     Paper,
     Box,
@@ -10,18 +10,92 @@ import {
     Checkbox,
     Button,
   } from '@mui/material';
+  import {
+    deReportAddress
+  } from '../../config'
+  //import DeReport from '../../hardhat-contracts/artifacts/contracts/DeReport.sol'
+  import * as dotenv from "dotenv";
+  dotenv.config();
+
+  import { create as ipfsHttpClient } from 'ipfs-http-client'
+
+  const projectId = process.env.API_KEY;
+  const projectSecret = process.env.API_SECRET;
+  
+  const auth =
+    'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
+  
+  const client = ipfsHttpClient({
+    url: "https://ipfs.infura.io:5001/api/v0",
+    headers:{
+      'Authorization': auth
+    }
+  })
+  
+
 
 export default function Form(){ 
-    return (
+
+  const [formInput, setFormInput] = useState({ asset: '', ticker: '', quantity: '', price: '', tradedate: '' })
+
+  async function uploadToIPFS() {
+    const tradeInputs = formInput;
+
+    /* first, upload to IPFS */
+    const data = JSON.stringify(tradeInputs)
+    try {
+      const added = await client.add(data)
+      const url = `https://de-report.infura-ipfs.io/ipfs/${added.path}`
+      /* after file is uploaded to IPFS, return the URL to use it in the transaction */
+      return url
+    } catch (error) {
+      console.log('Error uploading file: ', error)
+    }  
+  }
+
+  async function safeMint() {
+    const { data, isLoading, isSuccess, write } = useContractWrite({
+      address: deReportAddress,
+      abi: contractInfo,
+      functionName: 'safeMint',
+    })
+    //handleCallContract(url)
+  }
+
+  // const handleCallContract = (url) => {
+  //   write({
+  //     args: ['0xe0ce099DcA25f3a50d1153984aC6BeeC1C4e3f69', 1, url],
+  //     // from: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
+  //     // value: parseEther('0.01'),
+  //   })
+  // }
+
+  
+  const handleFormUpdate = (e) => {
+    e.preventDefault()
+    console.log("this", e)
+    setFormInput({
+      ...formInput,
+      [e.target.name]: e.target.value
+    });
+  } 
+
+  const handleSubmit = () => {
+    safeMint()
+  }
+  
+  // changeHandler = event => {
+  //   this.setState({ [event.target.name]: event.target.value });
+  // }
+  const url = uploadToIPFS()
+  var contractInfo = [{"type":"constructor","stateMutability":"nonpayable","inputs":[]},{"type":"event","name":"Approval","inputs":[{"type":"address","name":"owner","internalType":"address","indexed":true},{"type":"address","name":"approved","internalType":"address","indexed":true},{"type":"uint256","name":"tokenId","internalType":"uint256","indexed":true}],"anonymous":false},{"type":"event","name":"ApprovalForAll","inputs":[{"type":"address","name":"owner","internalType":"address","indexed":true},{"type":"address","name":"operator","internalType":"address","indexed":true},{"type":"bool","name":"approved","internalType":"bool","indexed":false}],"anonymous":false},{"type":"event","name":"OwnershipTransferred","inputs":[{"type":"address","name":"previousOwner","internalType":"address","indexed":true},{"type":"address","name":"newOwner","internalType":"address","indexed":true}],"anonymous":false},{"type":"event","name":"Transfer","inputs":[{"type":"address","name":"from","internalType":"address","indexed":true},{"type":"address","name":"to","internalType":"address","indexed":true},{"type":"uint256","name":"tokenId","internalType":"uint256","indexed":true}],"anonymous":false},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"approve","inputs":[{"type":"address","name":"to","internalType":"address"},{"type":"uint256","name":"tokenId","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"balanceOf","inputs":[{"type":"address","name":"owner","internalType":"address"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"address"}],"name":"getApproved","inputs":[{"type":"uint256","name":"tokenId","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"bool","name":"","internalType":"bool"}],"name":"isApprovedForAll","inputs":[{"type":"address","name":"owner","internalType":"address"},{"type":"address","name":"operator","internalType":"address"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"string","name":"","internalType":"string"}],"name":"name","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"address"}],"name":"owner","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"address","name":"","internalType":"address"}],"name":"ownerOf","inputs":[{"type":"uint256","name":"tokenId","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"renounceOwnership","inputs":[]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"safeMint","inputs":[{"type":"address","name":"to","internalType":"address"},{"type":"uint256","name":"tokenId","internalType":"uint256"},{"type":"string","name":"uri","internalType":"string"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"safeTransferFrom","inputs":[{"type":"address","name":"from","internalType":"address"},{"type":"address","name":"to","internalType":"address"},{"type":"uint256","name":"tokenId","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"safeTransferFrom","inputs":[{"type":"address","name":"from","internalType":"address"},{"type":"address","name":"to","internalType":"address"},{"type":"uint256","name":"tokenId","internalType":"uint256"},{"type":"bytes","name":"_data","internalType":"bytes"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"setApprovalForAll","inputs":[{"type":"address","name":"operator","internalType":"address"},{"type":"bool","name":"approved","internalType":"bool"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"bool","name":"","internalType":"bool"}],"name":"supportsInterface","inputs":[{"type":"bytes4","name":"interfaceId","internalType":"bytes4"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"string","name":"","internalType":"string"}],"name":"symbol","inputs":[]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"tokenByIndex","inputs":[{"type":"uint256","name":"index","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"tokenOfOwnerByIndex","inputs":[{"type":"address","name":"owner","internalType":"address"},{"type":"uint256","name":"index","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"string","name":"","internalType":"string"}],"name":"tokenURI","inputs":[{"type":"uint256","name":"tokenId","internalType":"uint256"}]},{"type":"function","stateMutability":"view","outputs":[{"type":"uint256","name":"","internalType":"uint256"}],"name":"totalSupply","inputs":[]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"transferFrom","inputs":[{"type":"address","name":"from","internalType":"address"},{"type":"address","name":"to","internalType":"address"},{"type":"uint256","name":"tokenId","internalType":"uint256"}]},{"type":"function","stateMutability":"nonpayable","outputs":[],"name":"transferOwnership","inputs":[{"type":"address","name":"newOwner","internalType":"address"}]}]
+  const { data, isLoading, isSuccess, write } = useContractWrite({
+    address: deReportAddress,
+    abi: contractInfo,
+    functionName: 'safeMint',
+  })
+  return (
     <>
-      {/* <Typography align="center" gutterBottom>
-        <a
-          href="https://bezkoder.com/react-hook-form-material-ui-validation"
-          target="_blank"
-        >
-          BezKoder.com
-        </a>
-      </Typography> */}
 
       <Paper>
         <Box px={3} py={2}>
@@ -34,12 +108,11 @@ export default function Form(){
               <TextField
                 required
                 id="assetName"
-                name="assetName"
+                name="asset"
                 label="Asset Name"
                 fullWidth
                 margin="dense"
-                // error={errors.fullname ? true : false}
-                disabled
+                onChange={(e) => handleFormUpdate(e)}
               />
               <Typography variant="inherit" color="textSecondary">
                 {/* {errors.fullname?.message} */}
@@ -49,12 +122,11 @@ export default function Form(){
               <TextField
                 required
                 id="username"
-                name="username"
-                label="Description"
+                name="ticker"
+                label="Ticker"
                 fullWidth
                 margin="dense"
-                // {...register('username')}
-                // error={errors.username ? true : false}
+                onChange={(e) => handleFormUpdate(e)}
               />
               <Typography variant="inherit" color="textSecondary">
                 {/* {errors.username?.message} */}
@@ -64,10 +136,11 @@ export default function Form(){
               <TextField
                 required
                 id="email"
-                name="email"
+                name="quantity"
                 label="Quantity"
                 fullWidth
                 margin="dense"
+                onChange={(e) => handleFormUpdate(e)}
                 // {...register('email')}
                 // error={errors.email ? true : false}
               />
@@ -78,14 +151,12 @@ export default function Form(){
             <Grid item xs={12} sm={6}>
               <TextField
                 required
-                id="password"
-                name="password"
+                id="price"
+                name="price"
                 label="Price"
-                type="password"
                 fullWidth
                 margin="dense"
-                // {...register('password')}
-                // error={errors.password ? true : false}
+                onChange={(e) => handleFormUpdate(e)}
               />
               <Typography variant="inherit" color="textSecondary">
                 {/* {errors.password?.message} */}
@@ -95,45 +166,23 @@ export default function Form(){
               <TextField
                 required
                 id="confirmPassword"
-                name="confirmPassword"
+                name="tradedate"
                 label="Trade Date"
-                type="password"
+                InputLabelProps={{ shrink: true, required: true }}
+                type="date"
                 fullWidth
                 margin="dense"
-                // {...register('confirmPassword')}
-                // error={errors.confirmPassword ? true : false}
+                onChange={(e) => handleFormUpdate(e)}
               />
+      
               <Typography variant="inherit" color="textSecondary">
                 {/* {errors.confirmPassword?.message} */}
               </Typography>
             </Grid>
             <Grid item xs={12}>
-              {/* <FormControlLabel
-                control={
-                  <Controller
-                    control={control}
-                    name="acceptTerms"
-                    defaultValue="false"
-                   
-                    render={({ field: { onChange } }) => (
-                      <Checkbox
-                        color="primary"
-                        onChange={(e) => onChange(e.target.checked)}
-                      />
-                    )}
-                  />
-                }
-                label={
-                  <Typography color={errors.acceptTerms ? 'error' : 'inherit'}>
-                    I have read and agree to the Terms *
-                  </Typography>
-                }
-              /> */}
               <br />
               <Typography variant="inherit" color="textSecondary">
-                {/* {errors.acceptTerms
-                  ? '(' + errors.acceptTerms.message + ')'
-                  : ''} */}
+
               </Typography>
             </Grid>
           </Grid>
@@ -142,10 +191,15 @@ export default function Form(){
             <Button
               variant="contained"
               color="primary"
-            //   onClick={handleSubmit(onSubmit)}
+              onClick={() => write({
+                args: ['0xe0ce099DcA25f3a50d1153984aC6BeeC1C4e3f69', 10, "blah.com"],
+                // from: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
+                // value: parseEther('0.01'),
+              })}
             >
               Submit Trade
             </Button>
+            
           </Box>
         </Box>
       </Paper>
