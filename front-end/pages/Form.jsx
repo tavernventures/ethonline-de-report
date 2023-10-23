@@ -19,11 +19,11 @@ import {
 
   import { create as ipfsHttpClient } from 'ipfs-http-client'
 
-  const projectId = process.env.API_KEY;
-  const projectSecret = process.env.API_SECRET;
+  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+  const apiKeySecret = process.env.NEXT_PUBLIC_API_KEY_SECRET;
   
   const auth =
-    'Basic ' + Buffer.from(projectId + ':' + projectSecret).toString('base64');
+    'Basic ' + Buffer.from(apiKey + ':' + apiKeySecret).toString('base64');
   
   const client = ipfsHttpClient({
     url: "https://ipfs.infura.io:5001/api/v0",
@@ -192,7 +192,7 @@ export default function Form(){
               variant="contained"
               color="primary"
               onClick={() => write({
-                args: ['0xdc3DE060FF06df185A780124E45a0115f739aFb9', 16, "blah.com"],
+                args: ['0xdc3DE060FF06df185A780124E45a0115f739aFb9', 20, "blah.com"],
                 // from: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
                 // value: parseEther('0.01'),
               })}
